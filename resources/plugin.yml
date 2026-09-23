@@ -1,0 +1,10 @@
+# Métriques de bascule d'inventaire.
+#
+# Autant un indicateur de jeu qu'un indicateur de charge : chaque bascule lit et écrit un profil sur le disque.
+name: VaniaMetrics-Inventories
+version: ${version}
+main: fr.samflix.vaniametrics.module.mvinventories.InventoriesPaper
+api-version: '1.21'
+authors: [mc-vania]
+description: "Métriques Multiverse-Inventories : bascules d'inventaire."
+depend: [VaniaMetrics, Multiverse-Inventories]
