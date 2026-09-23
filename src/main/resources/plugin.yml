@@ -1,10 +1,10 @@
-# Métriques de bascule d'inventaire.
+# Inventory switch metrics.
 #
-# Autant un indicateur de jeu qu'un indicateur de charge : chaque bascule lit et écrit un profil sur le disque.
+# As much a gameplay indicator as a load indicator: every switch reads and writes a profile to disk.
 name: VaniaMetrics-Inventories
 version: ${version}
 main: fr.samflix.vaniametrics.module.mvinventories.InventoriesPaper
 api-version: '1.21'
 authors: [mc-vania]
-description: "Métriques Multiverse-Inventories : bascules d'inventaire."
+description: "Multiverse-Inventories metrics: inventory switches."
 depend: [VaniaMetrics, Multiverse-Inventories]

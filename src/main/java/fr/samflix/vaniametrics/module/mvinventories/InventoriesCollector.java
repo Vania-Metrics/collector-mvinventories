@@ -12,50 +12,50 @@ import fr.samflix.vaniametrics.api.Counter;
 import fr.samflix.vaniametrics.api.MetricRegistry;
 
 /**
- * Multiverse-Inventories — les bascules d'inventaire.
+ * Multiverse-Inventories — inventory switches.
  *
- * <p>CE QUE ÇA MESURE VRAIMENT : chaque bascule LIT et ÉCRIT un profil de joueur sur le disque. Ce
- * compteur est donc autant un indicateur de jeu — combien de fois on change de monde — qu'un
- * indicateur de charge : une rafale de bascules explique des entrées-sorties qu'aucune autre
- * métrique n'attribuerait.
+ * <p>What this actually measures: every switch reads and writes a player profile to
+ * disk. This counter is therefore as much a gameplay indicator — how often players
+ * change worlds — as a load indicator: a burst of switches explains I/O that no
+ * other metric would attribute.
  *
- * <p>{@code cause} distingue les deux origines : un changement de MONDE, ou un changement de MODE
- * DE JEU quand la configuration sépare les inventaires par mode.
+ * <p>{@code cause} distinguishes the two origins: a world change, or a game mode
+ * change when the configuration separates inventories by mode.
  */
 public final class InventoriesCollector implements Collector, Listener {
 
-	private Counter bascules;
+	private Counter switches;
 
 	@Override
-	public String nom() {
+	public String name() {
 		return "inventory";
 	}
 
 	@Override
-	public String origine() {
+	public String source() {
 		return "Multiverse-Inventories";
 	}
 
 	@Override
-	public void declarer(MetricRegistry r) {
-		bascules = r.counter("inventory_switches_total",
-				"Bascules d'inventaire. cause = world|gamemode. Chacune lit et écrit un profil "
-						+ "sur le disque : c'est aussi un indicateur de charge.",
+	public void declare(MetricRegistry r) {
+		switches = r.counter("inventory_switches_total",
+				"Inventory switches. cause = world|gamemode. Each one reads and writes a "
+						+ "profile to disk: it's also a load indicator.",
 				"cause");
 	}
 
 	@Override
-	public void relever(MetricRegistry r) {
-		// Tout est compté dans les écouteurs.
+	public void collect(MetricRegistry r) {
+		// Everything is counted in the listeners.
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	public void onMonde(WorldChangeShareHandlingEvent e) {
-		bascules.inc("world");
+	public void onWorld(WorldChangeShareHandlingEvent e) {
+		switches.inc("world");
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-	public void onMode(GameModeChangeShareHandlingEvent e) {
-		bascules.inc("gamemode");
+	public void onGameMode(GameModeChangeShareHandlingEvent e) {
+		switches.inc("gamemode");
 	}
 }
